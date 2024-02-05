@@ -38,23 +38,30 @@ const typeDefs = `#graphql
 // Sample nodes
 const nodes = [
     {
-        id: '1', 
+        id: 1, 
         name: 'Eric CEO', 
-        parent: null, 
+        parentID: null, 
         department: 'Management', 
         programmingLanguage: null
     },
     {
-        id: '2', 
+        id: 2, 
         name: 'Manager A',
-        parent: '1',
+        parentID: 1,
         department: 'Engineering',
         programmingLanguage: null
     },
     {
-        id: '3', 
+        id: 3, 
+        name: 'Manager B',
+        parentID: 1,
+        department: 'Engineering',
+        programmingLanguage: null
+    },
+    {
+        id: 4, 
         name: 'Developer A',
-        parent: '2',
+        parentID: 2,
         department: null, 
         programmingLanguage: 'JavaScript'
     },
@@ -64,9 +71,14 @@ const nodes = [
 const resolvers = {
     Query: {
       node: (root, { id }) => {
-        return nodes.find(node => node.id === id);
+        return nodes.find(node => node.id == id);
       },
     },
+    Node: {
+        children: (root) => {
+            return nodes.filter(node => node.parentID == root.id);
+        }
+    }
 };
 
 
