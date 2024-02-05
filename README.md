@@ -3,10 +3,11 @@ A simple API for constructing and interacting with an organizational structure
 
 ## Implementation details
 
-- [ ] Setup [Apollo Server] (https://www.apollographql.com/docs/apollo-server) 
-- [ ] Implement a basic schema for the requirements of this solution
+- [X] Setup [Apollo Server] (https://www.apollographql.com/docs/apollo-server) 
+- [X] Implement a basic schema for the requirements of this solution
 - [ ] Implement basic resolving for querying as well as mutating data
 - [ ] Implement simple solution for handling authentication
+- [ ] Introduce handling of manager/developer role
 - [ ] **Optional** - Implement simple integrationtests for ensuring feature completeness
 - [ ] **Optional** - Setup service in a hosted enviroment
 
