@@ -16,7 +16,7 @@ function calculateHeight(node: Node, nodes: Node[]): number {
     }
   
     return node.height;
-  }
+}
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -53,12 +53,19 @@ const typeDefs = `#graphql
 `;
 
 type Node = {
-    id: number;
+    id?: number;
     name: string;
     parentID: number;
     height?: number;
     department: string,
     programmingLanguage: string
+}
+
+type NodeInput =  {
+    name: string;
+    parentID: number;
+    department: string;
+    programmingLanguage?: string;
 }
 
 // Sample nodes
@@ -100,8 +107,20 @@ const resolvers = {
       },
     },
     Mutation: {
-        addNode: ({ name, parentId, department, programmingLanguage }, context, info) => {
-          // Implementation for adding a new node
+        addNode: (_, args) => {
+            // Implementation for adding a new node
+            const nodeInput = args.node;
+            const newNode : Node = {
+                //Implements a simple autoincrementing id, based on highest existing ID value
+                id: Math.max(...nodes.map(node => node.id)) + 1,
+                name: nodeInput.name,
+                parentID: Number(nodeInput.parentId),
+                department: nodeInput.department,
+                programmingLanguage: nodeInput.programmingLanguage
+            };
+
+            nodes.push(newNode);
+            return newNode;
         },
         changeParentNode: (parent, args) => {
           const nodeIndex = nodes.findIndex((node) => node.id == args.nodeId);

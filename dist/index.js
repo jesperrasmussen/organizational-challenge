@@ -88,8 +88,19 @@ const resolvers = {
         },
     },
     Mutation: {
-        addNode: ({ name, parentId, department, programmingLanguage }, context, info) => {
+        addNode: (_, args) => {
             // Implementation for adding a new node
+            const nodeInput = args.node;
+            const newNode = {
+                //Implements a simple autoincrementing id, based on highest existing ID value
+                id: Math.max(...nodes.map(node => node.id)) + 1,
+                name: nodeInput.name,
+                parentID: Number(nodeInput.parentId),
+                department: nodeInput.department,
+                programmingLanguage: nodeInput.programmingLanguage
+            };
+            nodes.push(newNode);
+            return newNode;
         },
         changeParentNode: (parent, args) => {
             const nodeIndex = nodes.findIndex((node) => node.id == args.nodeId);
