@@ -130,3 +130,7 @@ One might argue that something role-based would be beneficial here, as checks fo
 In terms of handling Manager/Developer roles, one might consider defining a common interface for the different roles, allowing for setting the role either on creation of the organizational node - or determining the role based on the position in the hierarchy, defining a developer as someone with no organizational "children".
 
 Currently, both roles are handled by whatever input data is provided and as such, the API does not differentiate between the two, but it is instead up to the requester to determine which fields to fetch on the node, per the flexibility of GraphQL. Introducing an interface and two different types instead, would allow the GraphQL API to return the correct object type, exposing only the relevant attributes for a given role.
+
+### Hosting the service
+
+As time is sparse, I have not deployed the service anywhere, opting for it to run locally. Given time, it would of course make sense to have a CI/CD pipeline setup for building and deploying this service, using either a stand-alone provider for this service alone or in an automated enviroment like Kubernetes.
