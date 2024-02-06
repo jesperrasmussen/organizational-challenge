@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { GraphQLError } from 'graphql';
 
 import { typeDefs } from './schema.js';
 import { Node, NodeInput, nodes } from './samples.js';
@@ -81,6 +82,24 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
+    context: async ({ req, res }) => {
+        //Get the Authorization header
+        const auth = req.headers.authorization || null;
+
+        //We're just doing a simple check on Authorization header here for access.
+        if (auth !== "QWxsIFlvdXIgQmFzZSBBcmUgQmVsb25nIFRvIFVz") {
+            // throwing a `GraphQLError` here allows us to specify an HTTP status code,
+            // standard `Error`s will have a 500 status code by default
+            throw new GraphQLError('User is not authenticated', {
+                extensions: {
+                code: 'UNAUTHENTICATED',
+                http: { status: 401 },
+                },
+            });
+        }
+    
+        return { };
+      },
   });
   
 console.log(`🚀  Server ready at: ${url}`);
